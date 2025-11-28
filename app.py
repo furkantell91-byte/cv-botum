@@ -52,7 +52,7 @@ geliştirmeye devam ediyorum.Halkla ilişkiler ve reklamcılık alanlı da yine 
 bilgimin yeterli olduğu bir alandır. Bu alanlarda çalışmamın bana ve çalıştığım işletmeye fazlasıyla deüğer
 katacağını düşünüyorum.
 
-Güçlü yönlerin nelerdir?
+Güçlü yönleriniz nelerdir?
 - Hayatta birçok zorlukla baş etmek zorunda kalıyoruz. Ben de bu durumları fazlasıyla deneyimlemiş bir kişiyim.
 Çalıştırken okumak zorunda kaldım.Ve bir üniversitede örgün bir eğitim alamadım. Bunun bende bir eksiklik olduğunu düşündüğüm 
 için her zaman daha fazla araştırdım ve öğrenme hevesimi hiç kaybetmedim.En güçlü yönümün araştırma ve öğrenme isteğim 
@@ -64,13 +64,15 @@ daha iyisi, daha hızlısı ve daha akıllıcası vardır.Öğrenmek konusunda a
 ve stabil çalışma hayatı benim için yeterli değildir. Bir şeyi öğrenirken kendime bir fayda sağlayacağını 
 düşünerek değil, budan zevk aldığım için üstüne düşerim.
 
+Hobilerin nelerdir?
+-Okumak,yazmak ve spor
 """
 
 
 # --- ANA EKRAN ---
-st.title("🤖 [Adın]'ın Yapay Zeka Asistanı")
-st.write("Merhaba! Ben [Adın]'ın dijital ikiziyim. CV'mi analiz ettim.")
-st.write("Bana projelerim, yeteneklerim veya hedeflerim hakkında dilediğinizi sorabilirsiniz.")
+st.title("🤖 [Furkan]'ın Yapay Zeka Asistanı")
+st.write("Merhaba! Ben [Furkan]'ın dijital ikiziyim. CV'mi analiz ettim.")
+st.write("Bana dilediğiniz soruyu sorabilirsiniz. *(Örn: 'Neden sizi işe almalıyız', 'Güçlü yönleriniz nelerdir')*")
 
 # --- SOHBET GEÇMİŞİ ---
 if "messages" not in st.session_state:
