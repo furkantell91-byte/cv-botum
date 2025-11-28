@@ -4,8 +4,7 @@ from openai import OpenAI
 # --- SAYFA AYARLARI ---
 st.set_page_config(page_title="Akıllı CV Asistanı", page_icon="🤖")
 
-# --- SENİN CV BİLGİLERİN (Botun Hafızası) ---
-# Buraya kendi bilgilerini detaylıca yaz. Bot burayı okuyup öğrenecek.
+# --- SENİN BİLGİLERİN (Botun Hafızası) ---
 RESUME_DATA = """
 İsim: [Furkan TELLİ]
 Rol: iş arayan bir kişi aynı zamada yazılım öğreniyor
@@ -67,24 +66,15 @@ düşünerek değil, budan zevk aldığım için üstüne düşerim.
 
 """
 
-# --- YAN MENÜ (ANAHTAR GİRİŞİ) ---
-with st.sidebar:
-    st.header("🔑 Ayarlar")
-    st.info("Botun zekasını çalıştırmak için OpenAI API Anahtarı gerekir.")
-    # Kullanıcı anahtarını buraya girecek
-    openai_api_key = st.text_input("OpenAI API Key", type="password", help="sk-... ile başlayan kod")
-    st.markdown("[Anahtar Almak İçin Tıkla](https://platform.openai.com/api-keys)")
-    st.divider()
-    st.caption("Not: Anahtarınız kaydedilmez, sadece bu oturumda kullanılır.")
 
 # --- ANA EKRAN ---
-st.title("🤖 [Furkan]'ın Yapay Zeka Asistanı")
-st.write("Merhaba! Ben sıradan bir bot değilim. [Furkanın]'ın CV'sini analiz ettim.")
-st.write("Bana dilediğiniz soruyu sorabilirsiniz. *(Örn: 'Neden işe almalıyız', 'Güçlü yönleri neler')*")
+st.title("🤖 [Adın]'ın Yapay Zeka Asistanı")
+st.write("Merhaba! Ben [Adın]'ın dijital ikiziyim. CV'mi analiz ettim.")
+st.write("Bana projelerim, yeteneklerim veya hedeflerim hakkında dilediğinizi sorabilirsiniz.")
 
 # --- SOHBET GEÇMİŞİ ---
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "Merhaba! Hakkımda ne merak ediyorsunuz?"}]
+    st.session_state["messages"] = [{"role": "assistant", "content": "Merhaba! Size nasıl yardımcı olabilirim?"}]
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
@@ -95,39 +85,33 @@ if prompt := st.chat_input("Sorunuzu buraya yazın..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    # 2. Anahtar kontrolü
-    if not openai_api_key:
-        st.warning("⚠️ Lütfen cevap alabilmek için sol menüye OpenAI API Anahtarınızı giriniz.")
+    # 2. ANAHTARI GİZLİ KASADAN AL (Otomatik)
+    if "OPENAI_API_KEY" in st.secrets:
+        api_key = st.secrets["OPENAI_API_KEY"]
+    else:
+        st.error("HATA: API Anahtarı bulunamadı! Lütfen Streamlit ayarlarından 'Secrets' kısmını kontrol edin.")
         st.stop()
 
     # 3. OpenAI'ya Bağlan
     try:
-        client = OpenAI(api_key=openai_api_key)
+        client = OpenAI(api_key=api_key)
         
-        # Botun kişiliğini ve bilgisini tanımlıyoruz (System Prompt)
         system_instruction = f"""
-        Sen şu kişinin profesyonel yapay zeka asistanısın:
+        Sen şu kişinin profesyonel asistanısın:
         {RESUME_DATA}
         
-        GÖREVLERİN:
-        1. Sadece yukarıdaki CV bilgilerine dayanarak cevap ver.
-        2. Cevapların samimi, profesyonel ve kısa olsun.
-        3. İşverenlere karşı bu adayı en iyi şekilde temsil et.
-        4. Bilmediğin bir şey sorulursa dürüstçe "Bilgim yok" de.
+        Sadece bu bilgilere dayanarak cevap ver.
+        Samimi ve profesyonel ol.
         """
 
-        # Yapay zekadan cevap iste
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "system", "content": system_instruction}] + st.session_state.messages
         )
         
         msg = response.choices[0].message.content
-        
-        # Cevabı ekrana yaz
         st.session_state.messages.append({"role": "assistant", "content": msg})
         st.chat_message("assistant").write(msg)
         
     except Exception as e:
         st.error(f"Bir hata oluştu: {e}")
-        st.info("Eğer 'Quota' veya 'RateLimit' hatası alıyorsanız, OpenAI hesabınızda kredi bitmiş olabilir.")
