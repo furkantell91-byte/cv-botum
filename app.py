@@ -14,7 +14,7 @@ with st.sidebar:
     st.info("Bu bot Yapay Zeka ile çalışır.")
     
     # 3. LİNK BUTONU (İstersen)
-    st.link_button("LinkedIn Profilim", "https://www.linkedin.com/")
+    st.link_button("Kariyer.net Profilim", "https://www.kariyer.net/hesabim")
 # --- YAN MENÜ BİTİŞİ ---
 # --- SENİN BİLGİLERİN (Botun Hafızası) ---
 RESUME_DATA = """
