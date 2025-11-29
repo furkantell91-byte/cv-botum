@@ -7,7 +7,7 @@ st.set_page_config(page_title="Akıllı CV Asistanı", page_icon="🤖")
 # --- YAN MENÜ BAŞLANGICI ---
 with st.sidebar:
     # 1. FOTOĞRAF KISMI (beninfotomjpeg)
-    st.image("https://cdn-icons-png.flaticon.com/512/3135/3135715.png", width=150)
+    st.image("beninfotomjpeg.png", width=150)
     
     # 2. BAŞLIK VE AYARLAR
     st.title("Ayarlar")
